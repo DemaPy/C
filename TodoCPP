@@ -1,0 +1,76 @@
+#include <iostream>
+#include <string>
+#include <list>
+#include <ctime>
+
+
+class TodoItem {
+    private:
+        int id;
+        std::string description;
+        bool completed;
+
+    public:
+        TodoItem() : id(0), description(""), completed(false) {}
+        ~TodoItem() = default;
+
+        bool create(std::string new_desc) {
+            // generate rand int btw 1 and 100
+            id = rand() % 100 + 1;
+            description = new_desc;
+            return true;
+        }
+
+        int getId() {
+            return id;
+        }
+        std::string getDescription() {
+            return description;
+        }
+        bool isCompleted() {
+            return completed;
+        }
+
+};
+
+int main()
+{
+    std::string version = "v0.0.1";
+    std::list<TodoItem> todoItems;
+    std::list<TodoItem>::iterator iter;
+
+    srand(time(NULL));
+
+    todoItems.clear();
+
+    TodoItem test;
+    test.create("Test todo item");
+    todoItems.push_back(test);
+
+    while (1) {
+        system("cls");
+        std::cout << "Todo's maker - " << version << std::endl;
+        std::cout << std::endl << std::endl;
+
+        bool showTodos = false;
+
+        std::cout << "Enter 1 if you want to see all todos." << std::endl;
+        std::cin >> showTodos;
+
+        if (showTodos) {
+            for (iter = todoItems.begin(); iter != todoItems.end(); iter++) {
+
+                std::string completed = iter->isCompleted() ? "done" : "not done";
+
+                std::cout << iter->getId() << " | " << iter->getDescription() << " | " << completed << std::endl;
+            }
+        }
+        else {
+            std::cout << "You have selected to not see any items. Spierdalaj.";
+        };
+
+        break;
+    }
+
+    return 0;
+}
